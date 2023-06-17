@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:ommandalinurli/api/apis/date_api.dart';
+import 'package:ommandalinurli/api/models/datamodel_shiv.dart';
 import 'package:rive/rive.dart';
 
 import '../components/bottom_nav.dart';
@@ -74,11 +76,14 @@ class Vani_Screen extends StatelessWidget {
                 perspective: 0.005,
                 diameterRatio: 1,
                 physics: const FixedExtentScrollPhysics(),
-                childDelegate: ListWheelChildBuilderDelegate(
-                  childCount: 12,
-                  builder: (context, index) {
-                    return MyMonths();
-                  },
+                childDelegate: ListWheelChildListDelegate(
+                  children: List<Widget>.generate(
+                    months.length,
+                    (index) => Text(
+                      months[index],
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -140,8 +145,32 @@ class Vani_Screen extends StatelessWidget {
                   ),
                 ],
               ),
-              child: const SingleChildScrollView(
-                child: Center(child: Text("ShivBaba's Vani")),
+              child: SingleChildScrollView(
+                child: FutureBuilder<List<DataModelShiv>>(
+                  future: DateApi.fetchDates(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text('Error : ${snapshot.error}'),
+                      );
+                    } else {
+                      final dates = snapshot.data!;
+                      return ListView.builder(
+                        itemCount: dates.length,
+                        itemBuilder: (context, index) {
+                          final date = dates[index];
+                          return ListTile(
+                            title: Text('date.data'),
+                          );
+                        },
+                      );
+                    }
+                  },
+                ),
               ),
             ),
           ),
@@ -152,3 +181,20 @@ class Vani_Screen extends StatelessWidget {
     );
   }
 }
+
+final List<String> months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+List<int> years = [2017, 2018, 2019, 2020, 1021, 2022, 2023];

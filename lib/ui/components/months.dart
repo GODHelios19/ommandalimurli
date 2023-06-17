@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 
 class MyMonths extends StatelessWidget {
   final List<String> months = [
-    'January'
-        'February'
-        'March'
-        'April'
-        'May'
-        'June'
-        'July'
-        'August'
-        'September'
-        'October'
-        'November'
-        'December'
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
 
   @override

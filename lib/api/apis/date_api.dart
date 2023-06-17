@@ -14,8 +14,8 @@ class DateApi {
           jsonData.map((json) => DataModelShiv.fromJson(json)).toList();
       return dates;
     } else {
-      throw Exception("Failes to fatch Dates, something went wrong" +
-          response.statusCode.toString());
+      throw Exception(
+          "Failes to fatch Dates, something went wrong${response.statusCode}");
     }
   }
 }
