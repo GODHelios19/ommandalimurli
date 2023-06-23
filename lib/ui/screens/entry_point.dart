@@ -10,7 +10,7 @@ class Entry_point extends StatefulWidget {
 }
 
 class _Entry_pointState extends State<Entry_point> {
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +22,8 @@ class _Entry_pointState extends State<Entry_point> {
 
       appBar: AppBar(
         backgroundColor: Colors.white,
-        centerTitle: true,
         title: const Text(
-          'Onmandli',
+          'Om mandali',
           style: TextStyle(color: Colors.black),
         ),
         actions: [

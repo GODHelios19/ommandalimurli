@@ -1,12 +1,10 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:ommandalinurli/api/apis/date_api.dart';
-import 'package:ommandalinurli/api/models/datamodel_shiv.dart';
 import 'package:rive/rive.dart';
-
+import '../../api/apis/DateApi.dart';
+import '../../api/apis/constant/Constant.dart';
+import '../../api/model/DateModel.dart';
 import '../components/bottom_nav.dart';
-import '../components/months.dart';
 
 class Vani_Screen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -145,35 +143,36 @@ class Vani_Screen extends StatelessWidget {
                   ),
                 ],
               ),
-              child: SingleChildScrollView(
-                child: FutureBuilder<List<DataModelShiv>>(
-                  future: DateApi.fetchDates(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Center(
-                        child: Text('Error : ${snapshot.error}'),
-                      );
-                    } else {
-                      final dates = snapshot.data!;
-                      return ListView.builder(
-                        itemCount: dates.length,
+              child: FutureBuilder<DateModel>(
+                future: DateApi.fetchDates(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  } else {
+                    final users = snapshot.data!;
+                    lastValue = users.data[users.data.length - 1];
+                    lastValue = lastValue
+                        .toString()
+                        .substring(0, lastValue.length - 14);
+                    return ListView.builder(
+                        itemCount: 1,
                         itemBuilder: (context, index) {
-                          final date = dates[index];
+                          final user = users.data[index];
                           return ListTile(
-                            title: Text('date.data'),
+                            title: Text(lastValue),
                           );
-                        },
-                      );
-                    }
-                  },
-                ),
+                        });
+                  }
+                },
               ),
             ),
-          ),
+          )
         ],
       ),
       //=================================Nav-Bar=====================//
